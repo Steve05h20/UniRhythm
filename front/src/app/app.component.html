@@ -1,0 +1,17 @@
+<app-header>
+  <button type="button" class="toggle" mat-mini-fab (click)="drawer.toggle()">
+    <mat-icon>video_library</mat-icon>
+  </button>
+  <button class="py-2 px-5 bg-green-600 rounded-full hover:bg-green-700" routerLink="/tableau/">Tableau</button>
+  <button class="py-2 px-5 bg-green-600 rounded-full hover:bg-green-700" routerLink="/a-propos/">A propos</button>
+  <button class="py-2 px-5 bg-green-600 rounded-full hover:bg-green-700" routerLink="/themes-musicaux/">Thèmes musicaux</button>
+</app-header>
+
+<mat-drawer-container autosize class="h-[calc(100vh-64px)] w-full">
+  <mat-drawer #drawer class="drawer w-64" mode="side" [opened]="isDrawerOpen">
+    <app-bibliotheque class="w-full h-full" />
+  </mat-drawer>
+  <div class="w-full h-full p-4">
+    <router-outlet />
+  </div>
+</mat-drawer-container>
