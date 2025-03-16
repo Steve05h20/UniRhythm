@@ -1,0 +1,192 @@
+<div class="p-6 bg-gradient-to-b from-zinc-800 to-zinc-900">
+    <div class="flex items-center flex-wrap gap-2 mb-6">
+        <div class="flex items-center gap-2 mr-4">
+            <i class="material-icons text-zinc-300">table_chart</i>
+            <h2 class="text-3xl font-bold text-zinc-300">Administration</h2>
+        </div>
+
+        <div class="flex flex-wrap items-start gap-2">
+            <!-- Groupe Ajout -->
+            <app-button-group title="Ajouter">
+                <app-action-button
+                    icon="playlist_add"
+                    label="Liste"
+                    backgroundColor="#148b3d"
+                    (onClick)="openListeForm()">
+                </app-action-button>
+                <app-action-button
+                    icon="library_music"
+                    label="Chanson"
+                    backgroundColor="#148b3d"
+                    (onClick)="openChansonForm()">
+                </app-action-button>
+                <app-action-button
+                    icon="link"
+                    label="Lier"
+                    backgroundColor="#8b6714"
+                    (onClick)="openListeChansonForm()">
+                </app-action-button>
+            </app-button-group>
+
+            <!-- Groupe Édition -->
+            <app-button-group title="Modifier">
+                <app-action-button
+                    icon="edit_note"
+                    label="Liste"
+                    backgroundColor="#8b7914"
+                    (onClick)="openEditForm(null, 'liste')">
+                </app-action-button>
+                <app-action-button
+                    icon="edit_attributes"
+                    label="Chanson"
+                    backgroundColor="#8b7914"
+                    (onClick)="openEditForm(null, 'chanson')">
+                </app-action-button>
+            </app-button-group>
+
+            <!-- Groupe Suppression -->
+            <app-button-group title="Supprimer">
+                <app-action-button
+                    icon="delete_sweep"
+                    label="Liste"
+                    backgroundColor="#b71c1c"
+                    (onClick)="openDeleteDialog(null, 'liste')">
+                </app-action-button>
+                <app-action-button
+                    icon="delete_outline"
+                    label="Chanson"
+                    backgroundColor="#b71c1c"
+                    (onClick)="openDeleteDialog(null, 'chanson')">
+                </app-action-button>
+            </app-button-group>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-2 w-full mx-auto p-5 mb-8 h-56 overflow-x-auto rounded-lg">
+        @for (item of SpotifyData; track item._id) {
+            <app-liste-sommaire routerLink="/tableau/{{item._id}}" [typeListe]="item.type" [LinkImage]="item.image"
+                [sousTitre]="item.sousTitre" [class]="item._id?.toString() === _id ? 'shadow-sm rounded-lg shadow-green-500' : ''">
+                {{item.titre}}
+            </app-liste-sommaire>
+        }
+    </div>
+
+    @if (dataSource.length === 0) {
+        <div class="flex flex-col items-center justify-center p-8 bg-zinc-800 rounded-lg mt-4">
+            <mat-icon class="text-6xl text-zinc-600 mb-4">music_off</mat-icon>
+            <p class="text-xl text-zinc-400 font-medium">Cette liste ne contient aucune chanson</p>
+            <p class="text-sm text-zinc-500 mt-2">Ajoutez des chansons pour commencer à créer votre playlist</p>
+        </div>
+    } @else {
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="titre">
+                <th mat-header-cell *matHeaderCellDef> Titre </th>
+                <td mat-cell *matCellDef="let element"> {{element.titre}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nomArtiste">
+                <th mat-header-cell *matHeaderCellDef> Artiste </th>
+                <td mat-cell *matCellDef="let element"> {{element.nomArtiste}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nomAlbum">
+                <th mat-header-cell *matHeaderCellDef> Album </th>
+                <td mat-cell *matCellDef="let element"> {{element.nomAlbum}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nbLecture">
+                <th mat-header-cell *matHeaderCellDef> Nombre de Lectures </th>
+                <td mat-cell *matCellDef="let element">
+                    <app-lecture-count [nbLecture]="element.nbLecture"></app-lecture-count>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="flex gap-2">
+                        <app-action-button
+                            icon="edit"
+                            backgroundColor="#8b7914"
+                            tooltip="Éditer"
+                            [iconOnly]="true"
+                            (onClick)="openEditForm(element, 'chanson')">
+                        </app-action-button>
+                        <app-action-button
+                            icon="delete"
+                            backgroundColor="#b71c1c"
+                            tooltip="Supprimer"
+                            [iconOnly]="true"
+                            (onClick)="openDeleteDialog(element, 'chanson')">
+                        </app-action-button>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    }
+</div>
+
+<style>
+.button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.group-title {
+    color: #9ca3af;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.button-group:last-child {
+    border-right: none;
+}
+
+.action-button {
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+    padding: 0 16px !important;
+    height: 32px;
+    min-width: auto !important;
+    border-radius: 4px !important;
+    border: none !important;
+}
+
+.action-button mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.action-button span {
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* Ajustement pour les boutons d'action dans le tableau */
+[mat-icon-button] {
+    border-radius: 4px !important;
+    padding: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+}
+</style>
+
+

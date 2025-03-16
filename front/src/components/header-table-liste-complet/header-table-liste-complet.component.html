@@ -1,0 +1,25 @@
+<div class="grid grid-cols-[40px_1fr_80px_40px] items-center h-16 bg-zinc-900 hover:bg-zinc-800 rounded-lg">
+    <p class="text-zinc-300 text-center text-sm">#</p>
+
+    <div class="min-w-0 px-2">
+        <p class="text-base font-medium">Titre</p>
+    </div>
+
+    <p class="text-xs text-zinc-300 text-right whitespace-nowrap px-2">Durée</p>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" class="text-zinc-300" aria-label="Menu de suppression">
+        <mat-icon class="text-sm">more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="openDeleteDialog('liste')">
+            <mat-icon class="text-red-500">delete</mat-icon>
+            <span>Supprimer la liste</span>
+        </button>
+        <button mat-menu-item (click)="openDeleteDialog('chansons')" [disabled]="selectedChansons.length === 0">
+            <mat-icon class="text-red-500">playlist_remove</mat-icon>
+            <span>Supprimer les chansons sélectionnées</span>
+        </button>
+    </mat-menu>
+</div>
+<div class="h-0.5 bg-zinc-800 mx-auto"></div>

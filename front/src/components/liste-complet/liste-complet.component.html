@@ -1,0 +1,48 @@
+<div class=" p-3   bg-gradient-to-b from-zinc-800  to-zinc-900 rounded-lg  overflow-y-auto ">
+    <div class="flex items-end bg-zinc-800 p-2 rounded-lg">
+        @if (SpotifyData.image) {
+            <img src="{{SpotifyData.image}}"
+                [ngClass]="{'rounded-full': SpotifyData.type==='Artiste','rounded-md':SpotifyData.type!=='Artiste'}"
+                class=" h-60 w-60 object-cover" [alt]="SpotifyData.titre">
+        }
+        <div class="mx-2">
+            <p class="text-sm flex items-center gap-1">
+                @if(SpotifyData.verifie && SpotifyData.type ==="Artiste"){<mat-icon class="text-blue-400"
+                    aria-hidden="false" aria-label="verification" fontIcon="verified"></mat-icon>}
+                {{SpotifyData.type}}</p>
+            <h1 class="  text-6xl font-black my-2">{{SpotifyData.titre}}</h1>
+            <div class="flex items-center space-x-2 text-sm text-zinc-400">
+                <span class="font-semibold">{{SpotifyData.sousTitre}}</span>
+                <span>•</span>
+                <span>{{SpotifyData.dateDePublication | date: 'longDate' : 'fr'}}</span>
+                <span>•</span>
+                <app-count-display
+                    [count]="SpotifyData.nombreDeSauvegardes"
+                    type="saves">
+                </app-count-display>
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <p class="mb-8 mt-4">
+                {{SpotifyData.description}}
+            </p>
+            <app-header-table-liste-complet/>
+            @if (SpotifyData.chansons.length === 0) {
+                <div class="flex flex-col items-center justify-center p-8 bg-zinc-800 rounded-lg mt-4">
+                    <mat-icon class="text-6xl text-zinc-600 mb-4">music_off</mat-icon>
+                    <p class="text-xl text-zinc-400 font-medium">Cette liste ne contient aucune chanson</p>
+                    <p class="text-sm text-zinc-500 mt-2">Ajoutez des chansons pour commencer à créer votre playlist</p>
+                </div>
+            } @else {
+                @for(spotify of SpotifyData.chansons; track $index){
+                    <app-item-table-liste-complet [spotifyData]="SpotifyData._id ? SpotifyData._id.toString() : ''" [spotify]="spotify"
+                        [index]="$index"/>
+                }
+            }
+        </div>
+    </div>
+</div>

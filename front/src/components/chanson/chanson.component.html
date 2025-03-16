@@ -1,0 +1,23 @@
+<button class="py-2 m-1 flex items-center justify-center px-5 bg-zinc-800 rounded-full hover:bg-zinc-900" routerLink="/liste/{{_id}}"><i class="material-icons">arrow_back</i> Retour </button>
+<div class=" p-3 bg-gradient-to-b from-zinc-800  to-zinc-900 rounded-lg h-[800px] overflow-y-auto ">
+    <div class="flex items-end bg-zinc-800 p-2 rounded-lg">
+        <img [src]="SpotifyDataImage" class="rounded-md h-60 w-60 object-cover" [alt]="dataChanson.titre">
+        <div class="mx-2">
+            <p class="text-sm">Chanson</p>
+            <h1 class="  text-6xl font-black my-2">{{dataChanson.titre}}</h1>
+            <div class="flex items-center flex-nowrap space-x-1 text-sm text-zinc-300">
+                <span class="font-bold">{{dataChanson.nomArtiste}}</span>
+                <span class="font-semibold">{{dataChanson.nomAlbum}}</span>
+                <span class="font-semibold text-zinc-400">•</span>
+                <span class="font-semibold">{{dataChanson.dateDePublication | date: 'longDate' : 'fr' }}</span>
+                <span class="font-semibold text-zinc-400">•</span>
+                <span class="font-semibold">{{dataChanson.dureeSecondes | convertSecondsToMinSec}}</span>
+                <app-lecture-count  [nbLecture]="dataChanson.nbLecture"></app-lecture-count>
+            </div>
+
+        </div>
+    </div>
+
+    <app-paroles>{{dataChanson.paroles}}</app-paroles>
+
+</div>

@@ -1,0 +1,15 @@
+<div class="h-26 border-zinc-400 border-2 my-2 flex items-center hover:bg-zinc-800 rounded-lg shadow-md shadow-zinc-900 transition-all hover:shadow-zinc-800 cursor-pointer" [class]="{'bg-zinc-700':isSelected}">
+    <app-spotimage-shape class="m-2" [isArtist]="typeListe === 'Artiste'" [LinkImage]="LinkImage" />
+    <div class="">
+        <ng-content></ng-content>
+        <div class="flex items-center">
+            <p class="text-sm text-zinc-300 w-40"> {{typeListe}} |</p>
+
+            <p class="text-xs text-zinc-500 mx-2 ">{{sousTitre}}</p>
+        </div>
+    </div>
+    <div class="bg-green-600 w-5 h-5 m-2 flex justify-center items-center rounded-full font-bold opacity-0 ml-auto"
+        [ngClass]="{'opacity-100':isSelected}">
+        >
+    </div>
+</div>

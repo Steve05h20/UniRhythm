@@ -1,0 +1,7 @@
+.matChipSet{
+    display: flex;
+}
+
+.matChip{
+    color: red;
+}

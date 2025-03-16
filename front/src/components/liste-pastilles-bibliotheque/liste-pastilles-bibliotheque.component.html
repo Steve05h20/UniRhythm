@@ -1,0 +1,5 @@
+<mat-chip-listbox [value]="selectedType" (change)="onTypeChange($event.value)" class="matChipSet">
+  @for (item of data; track item) {
+    <mat-chip-option [value]="item" class="matChip">{{item}}</mat-chip-option>
+  }
+</mat-chip-listbox>

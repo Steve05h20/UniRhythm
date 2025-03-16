@@ -1,0 +1,14 @@
+<div class=" p-3 bg-gradient-to-b from-zinc-800 to-zinc-900 rounded-lg h-[full] overflow-y-auto">
+    <h2 class="m-2 text-2xl text-zinc-300 font-bold">Bibliothèque</h2>
+    <app-search-bar />
+    <app-liste-pastilles-bibliotheque (typeChange)="onTypeChange($event)"/>
+    @for (item of (SpotifyData | filtreTypeListe:selectedType); track item._id) {
+        <app-liste-sommaire
+            routerLink="liste/{{item._id}}"
+            [typeListe]="item.type"
+            [LinkImage]="item.image"
+            [sousTitre]="item.sousTitre">
+            {{item.titre}}
+        </app-liste-sommaire>
+    }
+</div>

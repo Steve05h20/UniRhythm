@@ -1,0 +1,23 @@
+<button class="py-2 m-1 flex items-center justify-center px-5 bg-zinc-800 rounded-full hover:bg-zinc-900" routerLink="/themes-musicaux">
+  <i class="material-icons">arrow_back</i> Retour
+</button>
+
+<div class="p-3 bg-gradient-to-b from-zinc-800 to-zinc-900 rounded-lg h-[800px] overflow-y-auto">
+  <div class="flex items-end bg-zinc-800 p-2 rounded-lg">
+    <div class="mx-2">
+      <p class="text-sm">Chanson</p>
+      <h1 class="text-6xl font-black my-2">{{dataChanson.titre}}</h1>
+      <div class="flex items-center gap-1">
+        <p class="text-sm font-bold">{{dataChanson.nomArtiste}}</p>
+        <p class="text-sm font-semibold">{{dataChanson.nomAlbum}}</p>
+        <p class="text-sm font-semibold">- {{dataChanson.dateDePublication | date: 'longDate' : 'fr' }}</p>
+        <p class="text-sm font-semibold">- {{dataChanson.dureeSecondes | convertSecondsToMinSec}}</p>
+        <div class="flex items-center ml-1">
+          <app-lecture-count [nbLecture]="dataChanson.nbLecture"></app-lecture-count>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-paroles>{{dataChanson.paroles}}</app-paroles>
+</div>

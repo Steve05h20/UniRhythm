@@ -1,0 +1,92 @@
+<div class="p-3 bg-gradient-to-b from-zinc-800 to-zinc-900 rounded-lg overflow-y-auto">
+  <!-- Filtres -->
+  <div class="mb-4">
+    <mat-chip-listbox [value]="selectedFilter" (change)="onFilterChange($event.value)">
+      @for (filter of filters; track filter.value) {
+        <mat-chip-option [value]="filter.value">
+          {{filter.label}}
+        </mat-chip-option>
+      }
+    </mat-chip-listbox>
+  </div>
+
+  <!-- Liste des chansons -->
+  <div class="mt-4">
+    <app-header-table-liste-complet/>
+
+    @if (selectedFilter === 'all') {
+      <app-song-list
+        [songs]="chansons | rechercheChanson:searchText"
+        emptyTitle="Aucune chanson trouvée"
+        emptyDescription="Essayez de modifier vos critères de recherche"
+      />
+    } @else if (selectedFilter === 'pinkfloyd') {
+      <app-song-list
+        [songs]="(chansons | rechercheChanson:searchText) | chansonParArtiste"
+        emptyTitle="Aucune chanson de Pink Floyd trouvée"
+        emptyDescription="Essayez de modifier vos critères de recherche"
+      />
+    } @else if (selectedFilter === 'populaire') {
+      <app-song-list
+        [songs]="(chansons | rechercheChanson:searchText) | chansonPopulaire"
+        emptyTitle="Aucune chanson populaire trouvée"
+        emptyDescription="Essayez de modifier vos critères de recherche"
+      />
+    } @else if (selectedFilter === 'paroles') {
+      <app-song-list
+        [songs]="(chansons | rechercheChanson:searchText) | chansonAvecParoles"
+        emptyTitle="Aucune chanson avec paroles trouvée"
+        emptyDescription="Essayez de modifier vos critères de recherche"
+      />
+    } @else if (selectedFilter === 'courte') {
+      <app-song-list
+        [songs]="(chansons | rechercheChanson:searchText) | chansonDuree:'courte'"
+        emptyTitle="Aucune chanson courte trouvée"
+        emptyDescription="Essayez de modifier vos critères de recherche"
+      />
+    } @else if (selectedFilter === 'longue') {
+      <app-song-list
+        [songs]="(chansons | rechercheChanson:searchText) | chansonDuree:'longue'"
+        emptyTitle="Aucune chanson longue trouvée"
+        emptyDescription="Essayez de modifier vos critères de recherche"
+      />
+    }
+  </div>
+</div>
+
+<style>
+.songs-container {
+  padding: 20px;
+}
+
+.song-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.song-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.song-card h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.song-card p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.lyrics {
+  margin-top: 10px;
+  font-style: italic;
+  color: #888;
+  max-height: 100px;
+  overflow-y: auto;
+}
+</style>
