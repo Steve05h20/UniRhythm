@@ -1,0 +1,15 @@
+{
+  "name": "app-music-zafimahita",
+  "version": "1.0.0",
+  "description": "Application de musique complète",
+  "scripts": {
+    "install-all": "cd back-end && npm install && cd ../front && npm install",
+    "start-back": "cd back-end && npm run dev",
+    "start-front": "cd front && ng serve",
+    "dev": "concurrently \"npm run start-back\" \"npm run start-front\"",
+    "clean": "rm -rf back-end/node_modules front/node_modules"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
