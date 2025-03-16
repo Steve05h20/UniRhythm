@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Confirmation de suppression</h2>
+<mat-dialog-content>
+  @if (!selectedItem) {
+    <mat-form-field class="search-field">
+      <mat-label>Rechercher {{ data.type === 'liste' ? 'une liste' : 'une chanson' }}</mat-label>
+      <input type="text" matInput [formControl]="searchControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onItemSelected($event.option.value)">
+        @for (item of filteredItems | async; track item._id) {
+          <mat-option [value]="item">
+            {{ getDisplayText(item) }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  } @else {
+    <p>Êtes-vous sûr de vouloir supprimer {{ getItemName() }} ?</p>
+    <p class="warning">Cette action est irréversible.</p>
+    <div class="actions">
+      <button mat-button (click)="onCancel()">Annuler</button>
+      <button mat-raised-button style="background-color: #f44336; color: white;" (click)="onConfirm()">Supprimer</button>
+    </div>
+  }
+</mat-dialog-content>

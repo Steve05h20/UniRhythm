@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>Créer une nouvelle liste</h2>
+
+<mat-dialog-content>
+  <form #listeForm="ngForm" class="flex flex-col gap-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Titre</mat-label>
+      <input matInput [(ngModel)]="liste.titre" name="titre" required #titre="ngModel">
+      @if (titre.invalid && (titre.dirty || titre.touched)) {
+        <mat-error>
+          Le titre est obligatoire
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sous-titre</mat-label>
+      <input matInput [(ngModel)]="liste.sousTitre" name="sousTitre">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="liste.description" name="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <select matNativeControl [(ngModel)]="liste.type" name="type" required #type="ngModel">
+        <option value="Liste de lecture">Liste de lecture</option>
+        <option value="Album">Album</option>
+        <option value="Artiste">Artiste</option>
+      </select>
+      @if (type.invalid && (type.dirty || type.touched)) {
+        <mat-error>
+          Le type est obligatoire
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Image</mat-label>
+      <input matInput [(ngModel)]="liste.image" name="image">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Visibilité</mat-label>
+      <select matNativeControl [(ngModel)]="liste.visibilite" name="visibilite" required #visibilite="ngModel">
+        <option value="Publique">Publique</option>
+        <option value="Privé">Privé</option>
+      </select>
+      @if (visibilite.invalid && (visibilite.dirty || visibilite.touched)) {
+        <mat-error>
+          La visibilité est obligatoire
+        </mat-error>
+      }
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!listeForm.form.valid">
+    Créer
+  </button>
+</mat-dialog-actions>

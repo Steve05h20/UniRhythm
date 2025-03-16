@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Lier une chanson à une liste</h2>
+
+<mat-dialog-content>
+  <form class="flex flex-col gap-4">
+    <mat-form-field appearance="fill">
+      <mat-label>Sélectionner une liste</mat-label>
+      <mat-select [formControl]="listeControl" #listeSelect>
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="listeFilterCtrl"
+            placeholderLabel="Rechercher une liste..."
+            noEntriesFoundLabel="Aucune liste trouvée">
+          </ngx-mat-select-search>
+        </mat-option>
+        @for (liste of filteredListes; track liste._id) {
+        <mat-option [value]="liste">
+          <div class="flex items-center gap-2">
+            @if (liste.image) {
+            <img [src]="liste.image" class="w-8 h-8 rounded-sm object-cover">
+            }
+            <span>{{liste.titre}}</span>
+          </div>
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sélectionner une chanson</mat-label>
+      <mat-select [formControl]="chansonControl" #chansonSelect>
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="chansonFilterCtrl"
+            placeholderLabel="Rechercher une chanson..."
+            noEntriesFoundLabel="Aucune chanson trouvée">
+          </ngx-mat-select-search>
+        </mat-option>
+        @for (chanson of filteredChansons; track chanson._id) {
+        <mat-option [value]="chanson">
+          <div class="flex items-center gap-2">
+            <span>{{chanson.titre}} - {{chanson.nomArtiste}}</span>
+          </div>
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()"
+          [disabled]="!listeControl.value || !chansonControl.value">
+    Lier
+  </button>
+</mat-dialog-actions>

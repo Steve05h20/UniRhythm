@@ -1,0 +1,140 @@
+<mat-tab-group [(selectedIndex)]="selectedTabIndex">
+  <!-- Onglet Liste -->
+  <mat-tab label="Liste">
+    <div class="form-container">
+      <mat-form-field class="search-field" appearance="fill">
+        <mat-label>Rechercher une liste</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input type="text" matInput [formControl]="searchListeControl" [matAutocomplete]="autoListe">
+        <mat-autocomplete #autoListe="matAutocomplete" [displayWith]="displayListeFn" (optionSelected)="onListeSelected($event.option.value)">
+          @for (liste of filteredListes | async; track liste._id) {
+            <mat-option [value]="liste">
+              {{liste.titre}}
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      @if (selectedListe) {
+        <form [formGroup]="listeForm" class="edit-form">
+          <mat-form-field>
+            <mat-label>Titre</mat-label>
+            <input matInput formControlName="titre">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Sous-titre</mat-label>
+            <input matInput formControlName="sousTitre">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="Artiste">Artiste</mat-option>
+              <mat-option value="Album">Album</mat-option>
+              <mat-option value="Liste de lecture">Liste de lecture</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Visibilité</mat-label>
+            <mat-select formControlName="visibilite">
+              <mat-option value="Publique">Publique</mat-option>
+              <mat-option value="Privée">Privée</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      }
+    </div>
+  </mat-tab>
+
+  <!-- Onglet Chanson -->
+  <mat-tab label="Chanson">
+    <div class="form-container">
+      <mat-form-field class="search-field" appearance="fill">
+        <mat-label>Rechercher une chanson</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input type="text" matInput [formControl]="searchChansonControl" [matAutocomplete]="autoChanson">
+        <mat-autocomplete #autoChanson="matAutocomplete" [displayWith]="displayChansonFn" (optionSelected)="onChansonSelected($event.option.value)">
+          @for (chanson of filteredChansons | async; track chanson._id) {
+            <mat-option [value]="chanson">
+              {{chanson.titre}} - {{chanson.nomArtiste}}
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      @if (selectedChanson) {
+        <form [formGroup]="chansonForm" class="edit-form">
+          <mat-form-field>
+            <mat-label>Titre</mat-label>
+            <input matInput formControlName="titre">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Artiste</mat-label>
+            <input matInput formControlName="nomArtiste">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Album</mat-label>
+            <input matInput formControlName="nomAlbum">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Paroles</mat-label>
+            <textarea matInput formControlName="paroles"></textarea>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Durée (secondes)</mat-label>
+            <input matInput type="number" formControlName="dureeSecondes">
+          </mat-form-field>
+        </form>
+      }
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="dialog-actions">
+  <button mat-button (click)="onCancel()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="!isFormValid()">Enregistrer</button>
+</div>
+
+<style>
+.form-container {
+  padding: 20px;
+}
+
+.search-field {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #2e2e2e;
+  border-radius: 4px;
+}
+
+.search-field .mat-icon {
+  color: #666;
+  margin-right: 8px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 16px;
+}
+
+
+</style>
